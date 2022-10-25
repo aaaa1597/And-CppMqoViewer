@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.18.1)
 
 project("cg3dviewer")
 
@@ -19,9 +19,4 @@ find_library( ANDROID_LIBRARY android )
 
 target_link_libraries( cg3dcom ${log-lib})
 target_link_libraries( mqo cg3dcom )
-target_link_libraries( cg3dviewer cg3dcom )
-target_link_libraries( cg3dviewer mqo )
-target_link_libraries( cg3dviewer ${log-lib} )
-target_link_libraries( cg3dviewer ${EGL_LIBRARY} )
-target_link_libraries( cg3dviewer ${GLES_LIBRARY} )
-target_link_libraries( cg3dviewer ${ANDROID_LIBRARY})
+target_link_libraries( cg3dviewer cg3dcom mqo ${log-lib} ${EGL_LIBRARY} ${GLES_LIBRARY} android)

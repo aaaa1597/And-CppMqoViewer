@@ -1,17 +1,19 @@
-package com.tks.cg3dviewer;
+package com.tks.cppmqoviewer;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.AssetManager;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
-import com.tks.cg3dviewer.modelformat.MQO;
+import com.tks.cppmqoviewer.databinding.Cg3dviewerBinding;
+import com.tks.cppmqoviewer.modelformat.MQO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class CG3DViewerActivity extends AppCompatActivity {
     private GLSurfaceView mGLSurfaceView = null;
     public AssetManager mAssetManager = null;
     private ScaleGestureDetector mPinchDetector;
+    private Cg3dviewerBinding binding;
 
     static {
         System.loadLibrary("cg3dviewer");
@@ -34,7 +37,9 @@ public class CG3DViewerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cg3dviewer);
+
+        binding = Cg3dviewerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mGLSurfaceView = new GLSurfaceView(getApplication());
         mGLSurfaceView.setEGLContextClientVersion(2);
@@ -66,18 +71,6 @@ public class CG3DViewerActivity extends AppCompatActivity {
                 super.onScaleEnd(detector);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mGLSurfaceView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mGLSurfaceView.onPause();
     }
 
     private float mScale = 1.0f;
