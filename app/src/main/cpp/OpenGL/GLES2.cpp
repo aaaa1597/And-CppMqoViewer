@@ -55,7 +55,7 @@ bool GLES2::OpenGLInit() {
 bool GLES2::ShaderInit(const std::vector<char> &colvsh, const std::vector<char> &colfsh,
                        const std::vector<char> &texvsh, const std::vector<char> &texfsh, GlShaderObj aShaders[2], unsigned int &TexId) {
     glGenTextures(1, &TexId);
-    // テクスチャユニット0を有効にする
+    // テクスチャユニット0を有効にする(マルチテクスチャする時に設定する。テクスチャユニット0だけはデフォルトで有効になっているので,この処理は意味ない)
     glActiveTexture(GL_TEXTURE0);
     // テクスチャオブジェクトをバインドする
     glBindTexture(GL_TEXTURE_2D, TexId);
@@ -258,24 +258,21 @@ void GLES2::draw() {
             glUniform1i(shaderobj.u_TexSamplerId, 0);
 
         /* 頂点 */
-        assert((drawinfo.mVerArrySize == drawinfo.mVirtexs.size()*3*sizeof(float)) &&
-        	"aaaaa");
+        assert((drawinfo.mVerArrySize == drawinfo.mVirtexs.size()*3*sizeof(float)) && "aaaaa");
         glBindBuffer(GL_ARRAY_BUFFER, SystemData.mGlBufferObj.VertexBufId);
         glBufferData(GL_ARRAY_BUFFER, drawinfo.mVerArrySize, drawinfo.mVerArry, GL_DYNAMIC_DRAW);
         glVertexAttribPointer(shaderobj.a_VertexId, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(shaderobj.a_VertexId);
 
         /* 法線 */
-        assert((drawinfo.mNorArrySize == drawinfo.mNormals.size()*3*sizeof(float)) &&
-            "aaaaa");
+        assert((drawinfo.mNorArrySize == drawinfo.mNormals.size()*3*sizeof(float)) && "aaaaa");
         glBindBuffer(GL_ARRAY_BUFFER, SystemData.mGlBufferObj.NormalBuffId);
         glBufferData(GL_ARRAY_BUFFER, drawinfo.mNorArrySize, drawinfo.mNorArry, GL_DYNAMIC_DRAW);
         glVertexAttribPointer(shaderobj.a_NormalId, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(shaderobj.a_NormalId);
 
         /* カラー */
-        assert((drawinfo.mClrArrySize == drawinfo.mColors.size()*4*sizeof(float)) &&
-            "aaaaa");
+        assert((drawinfo.mClrArrySize == drawinfo.mColors.size()*4*sizeof(float)) && "aaaaa");
         glBindBuffer(GL_ARRAY_BUFFER, SystemData.mGlBufferObj.ColorBuffId);
         glBufferData(GL_ARRAY_BUFFER, drawinfo.mClrArrySize, drawinfo.mClrArry, GL_DYNAMIC_DRAW);
         glVertexAttribPointer(shaderobj.a_ColorId, 4, GL_FLOAT, false, 0, 0);
